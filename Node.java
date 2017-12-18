@@ -13,4 +13,8 @@ public class Node{
 	public void setMine(boolean mine){
 		this.mine = mine;
 	}
+
+	public boolean hasMine(){
+		return mine;
+	}
 }

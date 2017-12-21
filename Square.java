@@ -2,7 +2,7 @@ public class Square{
 
 	int xValue;
 	int yValue;
-	int clue;	//number that revals how many surrounding tiles have mines;
+	private int clue;	//number that revals how many surrounding tiles have mines;
 	private boolean flagged;
 	private boolean revealed;
 	private boolean mine;
@@ -14,6 +14,14 @@ public class Square{
 		clue = 0;
 		flagged = false;
 		revealed = false;
+	}
+
+	public void setClue(int clue){
+		this.clue = clue;
+	}
+
+	public int getClue(){
+		return clue;
 	}
 
 	public void toggleFlag(){
@@ -39,4 +47,13 @@ public class Square{
 	public boolean hasMine(){
 		return mine;
 	}
+
+	public char testCharacter(){
+		if(!revealed){
+			return 'X';
+		} else {
+			return (char)clue;
+		}
+	}
+
 }

@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Board{
 	
-	Square[] board;
+	Square[][] board;
 	int rows;
 	int cols;
 	int numMines;
@@ -25,19 +25,19 @@ public class Board{
 	} // end Board
 
 
-	public void setMines(){
+	public void setMines(int xValue, int yValue){
 		Random rand = new Random();
-		int xValue;
-		int yValue;
+		int xRand;
+		int yRand;
 
 		for (int i = 0; i < numMines; i++){
-			xValue = rand.nextInt(board.length);
-			yValue = rand.nextInt(board.length[xValue]);
+			xRand = rand.nextInt(rows);
+			yRand = rand.nextInt(cols);
 
-			if(board[xValue][yValue].hasMine()){
+			if(board[xRand][yRand].hasMine() || (xRand == xValue && yRand == yValue)){
 				i--;
 			} else {
-				board[xValue][yValue].setMines(true);
+				board[xRand][yRand].setMine(true);
 			}
 		} // end for
 	} // end setMines
@@ -51,13 +51,12 @@ public class Board{
 			for(int j = -1; i < 2; j++){
 				if (i < 0 || i >= rows || j < 0 || j >= cols){
 					continue;
-				} else if (board[xValue + i][yValue + j].hasMine){
+				} else if (board[xValue + i][yValue + j].hasMine()){
 					clue++;
 				}
 			}
 		} // end for
-
-		currSquare.clue = clue;
+		currSquare.setClue(clue);
 	} // end findClue
 
 	public int onPush(int xValue, int yValue){
@@ -69,7 +68,7 @@ public class Board{
 
 		if(currSquare.hasMine()){
 			return -1; // Game ends, player loses
-		} else if(currSquare.clue == 0){
+		} else if(currSquare.getClue() == 0){
 			//@TODO Add functionality to check the surrounding squares if they are blank
 			for (int i = -1; i < 2; i++){
 				for (int j = -1; j < 2; j++){
@@ -83,16 +82,14 @@ public class Board{
 		} else if(numRevealed == winCondition) {
 			return 1; // Player wins
 		}
-
 		return 0; // Game continues as normal
-
 	} // end onPush
 
 	public void recursiveReveal(int xValue, int yValue){
 		Square currSquare = board[xValue][yValue];
-		currSquare.findClue();
+		findClue(xValue,yValue);
 
-		if (currSquare.isRevealed() || currSquare.hasMine || currSquare.clue > 0){
+		if (currSquare.isRevealed() || currSquare.hasMine() || currSquare.getClue() > 0){
 			return;
 		} else {
 			currSquare.reveal();
@@ -107,9 +104,6 @@ public class Board{
 					}
 				}
 			} // end for 
-
 		}
-
 	}// end recursiveReveal
-
 } // end Board

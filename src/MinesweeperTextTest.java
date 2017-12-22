@@ -2,16 +2,22 @@ import java.util.Scanner;
 
 public class MinesweeperTextTest {
 
-
-
     public static void main(String[] args){
-        Board game = new Board(5,5,5);
         Scanner s = new Scanner(System.in);
 
-        int inX, inY;
+        int inX, inY, rows, cols, mines, cond;
         boolean running = true;
-        int cond;
 
+        System.out.println("Enter a number of rows:");
+        rows = s.nextInt();
+        System.out.println("Enter a number of columns:");
+        cols = s.nextInt();
+        System.out.println("Enter a number of mines:");
+        mines = s.nextInt();
+
+        Board game = new Board(rows,cols,mines);
+
+        // START OF GAME:
         game.printBoard();
 
         System.out.println("Enter x:");
@@ -25,6 +31,7 @@ public class MinesweeperTextTest {
 
         game.printBoard();
 
+        // MAIN GAME LOOP:
         while(running) {
             System.out.println("Enter x:");
             inX = s.nextInt();
@@ -47,5 +54,5 @@ public class MinesweeperTextTest {
                     break;
             }
         }
-    }
-}
+    } // end main
+} // end class

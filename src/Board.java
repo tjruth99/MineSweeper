@@ -2,12 +2,12 @@ import java.util.Random;
 
 public class Board{
 
-    Square[][] board;
-    int rows;
-    int cols;
-    int numMines;
-    int numRevealed;
-    int winCondition;	// Player wins when numRevealed equals winCondition
+    private Square[][] board;
+    private int rows;
+    private int cols;
+    private int numMines;
+    private int numRevealed;
+    private int winCondition;	// Player wins when numRevealed equals winCondition
 
     public Board(int rows, int cols, int numMines){
         board = new Square[rows][cols];
@@ -69,17 +69,16 @@ public class Board{
         if(currSquare.hasMine()){
             return -1; // Game ends, player loses
         } else if(currSquare.getClue() == 0){
-            //@TODO Add functionality to check the surrounding squares if they are blank
             for (int i = -1; i < 2; i++){
                 for (int j = -1; j < 2; j++){
                     if (i + xValue < 0 || i + xValue >= rows || j + yValue < 0 || j + yValue >= cols){
                         continue;
                     } else {
-                     //   recursiveReveal(xValue + i, yValue + j);
+                        recursiveReveal(xValue + i, yValue + j);
                     }
                 }
             }
-        } else if(numRevealed == winCondition) {
+        } else if(numRevealed >= winCondition) {
             return 1; // Player wins
         }
         return 0; // Game continues as normal
@@ -89,7 +88,7 @@ public class Board{
         Square currSquare = board[xValue][yValue];
         findClue(xValue,yValue);
 
-        if (currSquare.isRevealed() || currSquare.hasMine() || currSquare.getClue() > 0){
+        if (currSquare.isRevealed() || currSquare.hasMine()){
             return;
         } else {
             currSquare.reveal();
@@ -97,7 +96,7 @@ public class Board{
 
             for (int i = -1; i < 2; i++){
                 for (int j = -1; j < 2; j++){
-                    if (i < 0 || i >= rows || j < 0 || j >= cols){
+                    if (i + xValue < 0 || i + xValue >= rows || j + yValue < 0 || j + yValue >= cols){
                         continue;
                     } else {
                         recursiveReveal(xValue+i, yValue+j);
@@ -122,6 +121,6 @@ public class Board{
             }
             System.out.print("|\n");
         }
-    }
+    } // end printBoard
 
 } // end Board

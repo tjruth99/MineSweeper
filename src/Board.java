@@ -67,6 +67,13 @@ public class Board{
         numRevealed++;
 
         if(currSquare.hasMine()){
+            for(int i = 0; i < rows; i ++){ // Reveal all the mines if player loses
+                for (int j = 0; j < cols; j++){
+                    if (board[i][j].hasMine()) {
+                        board[i][j].reveal();
+                    }
+                }
+            }
             return -1; // Game ends, player loses
         } else if(currSquare.getClue() == 0){
             for (int i = -1; i < 2; i++){
@@ -78,7 +85,9 @@ public class Board{
                     }
                 }
             }
-        } else if(numRevealed >= winCondition) {
+        }
+
+        if(numRevealed >= winCondition) {
             return 1; // Player wins
         }
         return 0; // Game continues as normal

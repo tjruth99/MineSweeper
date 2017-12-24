@@ -51,6 +51,8 @@ public class Square{
     public char testCharacter(){
         if(!revealed){
             return 'X';
+        } else if (flagged){
+            return '#';
         } else if (hasMine()){
             return '*';
         } else {
